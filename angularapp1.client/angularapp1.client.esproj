@@ -6,5 +6,10 @@
     <ShouldRunBuildScript>false</ShouldRunBuildScript>
     <!-- Folder where production build objects will be placed -->
     <BuildOutputFolder>$(MSBuildProjectDirectory)\dist\angularapp1.client\browser\</BuildOutputFolder>
+    <BuildCommand>ng serve --port 4200</BuildCommand>
   </PropertyGroup>
+  <ItemGroup>
+    <None Remove="src\app\order\**" />
+    <TypeScriptConfiguration Remove="src\app\order\**" />
+  </ItemGroup>
 </Project>

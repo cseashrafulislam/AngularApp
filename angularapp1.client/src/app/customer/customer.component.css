@@ -1,0 +1,104 @@
+/* General Container */
+.container {
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 20px;
+  font-family: Arial, sans-serif;
+}
+
+/* Form Styling */
+.form-title {
+  text-align: center;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+.customer-form {
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  margin-bottom: 30px;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+}
+
+.form-control {
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  font-size: 16px;
+}
+
+button:disabled {
+  background-color: #e0e0e0;
+  cursor: not-allowed;
+}
+
+button {
+  padding: 10px 20px;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+}
+
+  button:hover {
+    opacity: 0.8;
+  }
+
+/* Button Styles */
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-warning {
+  background-color: #ffc107;
+  color: white;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  color: white;
+}
+
+.btn-success {
+  background-color: #28a745;
+  color: white;
+}
+
+.add-customer-btn {
+  text-align: center;
+  margin-top: 20px;
+}
+
+/* Customer List Styling */
+.customer-list {
+  margin-top: 20px;
+}
+
+.customer-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px;
+  background-color: #f8f9fa;
+  border: 1px solid #ccc;
+  margin-bottom: 10px;
+  border-radius: 4px;
+}
+
+  .customer-item p {
+    margin: 0;
+  }
+
+.divider {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin-top: 30px;
+  margin-bottom: 30px;
+}

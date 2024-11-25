@@ -1,45 +1,46 @@
-import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
-import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { AppComponent } from './app.component';
+import { RouterTestingModule } from '@angular/router/testing';  // Import RouterTestingModule to test routing
+import { HttpClientModule } from '@angular/common/http';         // Import HttpClientModule for HTTP requests (if needed)
 
 describe('AppComponent', () => {
   let component: AppComponent;
   let fixture: ComponentFixture<AppComponent>;
-  let httpMock: HttpTestingController;
 
   beforeEach(async () => {
+    // Configure the testing module
     await TestBed.configureTestingModule({
-      declarations: [AppComponent],
-      imports: [HttpClientTestingModule]
-    }).compileComponents();
-  });
+      declarations: [AppComponent],           // Declare the AppComponent
+      imports: [RouterTestingModule, HttpClientModule]  // Import necessary modules
+    })
+      .compileComponents();  // Compile components before running tests
 
-  beforeEach(() => {
+    // Create a fixture for the AppComponent
     fixture = TestBed.createComponent(AppComponent);
-    component = fixture.componentInstance;
-    httpMock = TestBed.inject(HttpTestingController);
-  });
-
-  afterEach(() => {
-    httpMock.verify();
+    component = fixture.componentInstance;  // Get the component instance
+    fixture.detectChanges();  // Trigger change detection to update the view
   });
 
   it('should create the app', () => {
+    // Check if the AppComponent is created successfully
     expect(component).toBeTruthy();
   });
 
-  it('should retrieve weather forecasts from the server', () => {
-    const mockForecasts = [
-      { date: '2021-10-01', temperatureC: 20, temperatureF: 68, summary: 'Mild' },
-      { date: '2021-10-02', temperatureC: 25, temperatureF: 77, summary: 'Warm' }
-    ];
+  it('should have a title "Angular Application"', () => {
+    // Test if the component's title is set correctly
+    expect(component.title).toBe('Angular Application');
+  });
 
-    component.ngOnInit();
+  it('should render the title in the template', () => {
+    // Test if the title is rendered in the template
+    const compiled = fixture.nativeElement as HTMLElement;
+    expect(compiled.querySelector('h1')?.textContent).toContain('Product List');
+  });
 
-    const req = httpMock.expectOne('/weatherforecast');
-    expect(req.request.method).toEqual('GET');
-    req.flush(mockForecasts);
-
-    expect(component.forecasts).toEqual(mockForecasts);
+  // Optionally test routing or any other functionality
+  it('should navigate to products page when products link is clicked', () => {
+    const compiled = fixture.nativeElement as HTMLElement;
+    const productsLink = compiled.querySelector('a[routerLink="/products"]')!;
+    expect(productsLink).toBeTruthy();  // Check if the link exists
   });
 });

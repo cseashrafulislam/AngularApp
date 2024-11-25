@@ -18,6 +18,16 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowAll", builder =>
+    {
+        builder.AllowAnyOrigin() // Allow all origins (adjust for security in production)
+               .AllowAnyMethod() // Allow all methods (GET, POST, PUT, DELETE)
+               .AllowAnyHeader(); // Allow all headers
+    });
+});
+
 // Register the GenericRepository for all entities
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
@@ -39,11 +49,9 @@ app.UseDefaultFiles();
 app.UseStaticFiles();
 
 // CORS policy configuration
-app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-app.UseCors(builder =>
-   builder.WithOrigins("http://localhost:7157") 
-          .AllowAnyMethod()
-          .AllowAnyHeader());
+//app.UseCors(x => x.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+app.UseCors("AllowAll");
+
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
