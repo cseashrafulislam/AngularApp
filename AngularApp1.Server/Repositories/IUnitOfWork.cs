@@ -1,6 +1,7 @@
 ﻿
 
 using AngularApp1.Server.Repositories.CustomerRepo;
+using AngularApp1.Server.Repositories.OrderRepo;
 using AngularApp1.Server.Repositories.ProductRepo;
 
 namespace AngularApp1.Server.Repositories
@@ -9,6 +10,9 @@ namespace AngularApp1.Server.Repositories
     {
         IProductRepository Product { get; }
         ICustomerRepository Customer { get; }
+
+        IOrderRepository Order { get; }
+        IOrderDtlsRepository OrderDtls { get;}  // Add this line
 
 
         int SaveChanges();

@@ -1,0 +1,114 @@
+<div class="order-form container mt-5">
+  <h2 class="text-center mb-4">{{ order.id ? 'Edit' : 'Create' }} Order</h2>
+
+  <form (ngSubmit)="saveOrder()">
+    <!-- Customer Dropdown -->
+    <div class="form-group mb-3">
+      <label for="customerId">Customer</label>
+      <select id="customerId" class="form-control" [(ngModel)]="order.customerId" name="customerId" required>
+        <option *ngFor="let customer of customers" [value]="customer.id">{{ customer.customerName }}</option>
+      </select>
+    </div>
+
+    <!-- Order Date -->
+    <div class="form-group mb-3">
+      <label for="orderDate">Order Date</label>
+      <input id="orderDate" type="date" class="form-control" [(ngModel)]="order.orderDate" name="orderDate" required />
+    </div>
+
+    <!-- Remarks -->
+    <div class="form-group mb-3">
+      <label for="remarks">Remarks</label>
+      <input id="remarks" class="form-control" [(ngModel)]="order.remarks" name="remarks" />
+    </div>
+
+    <!-- Order Details Section -->
+    <div class="order-details mt-4">
+      <h3 class="mb-3">Order Details</h3>
+      <!-- Table for Order Details -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>Product</th>
+            <th>Price</th>
+            <th>Quantity</th>
+            <th>Total</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of order.orderDtls; let i = index">
+            <!-- Product Dropdown -->
+            <td>
+              <select id="productId{{ i }}" class="form-control" [(ngModel)]="detail.productId" name="productId{{ i }}" (change)="updateProductPrice(i)" required>
+                <option value="">Select Product</option>
+                <option *ngFor="let product of products" [value]="product.id">{{ product.name }}</option>
+              </select>
+            </td>
+            <!-- Price -->
+            <td>
+              <input id="price{{ i }}" class="form-control" [(ngModel)]="detail.price" name="price{{ i }}" placeholder="Price" readonly />
+            </td>
+            <!-- Quantity -->
+            <td>
+              <input id="qty{{ i }}" class="form-control" [(ngModel)]="detail.qty" name="qty{{ i }}" placeholder="Quantity" required />
+            </td>
+            <!-- Total -->
+            <td>
+              <input id="total{{ i }}" class="form-control" [value]="detail.price * detail.qty" readonly />
+            </td>
+            <td>
+              <button type="button" class="btn btn-danger btn-sm" (click)="removeProduct(i)">
+                <i class="bi bi-trash"></i> Remove
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+
+      <!-- Add Product Button -->
+      <div class="mt-3">
+        <button type="button" class="btn btn-primary" (click)="addProduct()">
+          <i class="bi bi-plus-circle"></i> Add Product
+        </button>
+      </div>
+    </div>
+
+    <!-- Submit Button -->
+    <div class="mt-4 text-center">
+      <button type="submit" class="btn btn-success btn-lg">{{ order.id ? 'Update Order' : 'Create Order' }}</button>
+    </div>
+  </form>
+</div>
+<br />
+<div class="order-list mt-5">
+  <h2>Order List</h2>
+
+  <!-- Table displaying orders -->
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Order ID</th>
+        <th>Customer ID</th>
+        <th>Order Date</th>
+        <th>Remarks</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let order of orders">
+        <td>{{ order.id }}</td>
+        <td>{{ order.customerId }}</td>
+        <td>{{ order.orderDate | date }}</td>
+        <td>{{ order.remarks }}</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <!-- Pagination Controls -->
+  <div class="pagination">
+    <button class="btn btn-primary" (click)="prevPage()" [disabled]="page <= 1">Previous</button>
+    <span>Page {{ page }}</span>
+    <button class="btn btn-primary" (click)="nextPage()" [disabled]="page * pageSize >= totalOrders">Next</button>
+  </div>
+</div>
+

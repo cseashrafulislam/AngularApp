@@ -1,0 +1,26 @@
+/* Optional: Add some margin around the order details */
+.order-details {
+  margin-top: 20px;
+}
+
+/* Optional: Customize the button style */
+.btn-primary {
+  background-color: #007bff;
+  border-color: #007bff;
+}
+
+.btn-danger {
+  background-color: #dc3545;
+  border-color: #dc3545;
+}
+
+.btn-success {
+  background-color: #28a745;
+  border-color: #28a745;
+}
+
+/* Optional: Customize the loading spinner */
+.text-center span {
+  font-size: 1.5rem;
+  color: #007bff;
+}

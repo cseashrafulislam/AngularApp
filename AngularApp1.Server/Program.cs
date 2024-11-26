@@ -4,6 +4,7 @@ using AngularApp1.Server.Repositories;
 using Microsoft.EntityFrameworkCore;
 using AngularApp1.Server.Services;
 using AngularApp1.Server.Repositories.CustomerRepo;
+using AngularApp1.Server.Repositories.OrderRepo;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -32,17 +33,28 @@ builder.Services.AddCors(options =>
 // Register the GenericRepository for all entities
 builder.Services.AddScoped(typeof(IRepository<>), typeof(GenericRepository<>));
 
+// Optionally, add UnitOfWork if you are using it in your services
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 // Register the specific ProductRepository (if needed)
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 builder.Services.AddScoped<ICustomerRepository, CustomerRepository>();
 
-// Optionally, add UnitOfWork if you are using it in your services
-builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
+builder.Services.AddScoped<IOrderRepository, OrderRepository>();
+builder.Services.AddScoped<IOrderDtlsRepository, OrderDtlsRepository>();
 
 // Add ProductService for business logic
 builder.Services.AddScoped<ProductService>();
 builder.Services.AddScoped<CustomerService>();
+builder.Services.AddScoped<OrderService>();
 
+
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        // Configure JSON options to handle cycles
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.MaxDepth = 64; // Optional: Increase max depth if needed
+    });
 
 var app = builder.Build();
 

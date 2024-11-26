@@ -2,12 +2,15 @@
 using AngularApp1.Server.Repositories.ProductRepo;
 using AngularApp1.Server.Repositories;
 using AngularApp1.Server.Repositories.CustomerRepo;
+using AngularApp1.Server.Repositories.OrderRepo;
 
 public class UnitOfWork : IUnitOfWork
 {
     private readonly ApplicationDbContext _context;
     private IProductRepository _productRepository;
     private ICustomerRepository _customerRepository;
+    private IOrderRepository _orderRepository;
+    private IOrderDtlsRepository _orderDtlsRepository;
 
 
     public UnitOfWork(ApplicationDbContext context)
@@ -18,6 +21,8 @@ public class UnitOfWork : IUnitOfWork
     public IProductRepository Product => _productRepository ??= new ProductRepository(_context);
     public ICustomerRepository Customer => _customerRepository ??= new CustomerRepository(_context);
 
+    public IOrderRepository Order => _orderRepository ??= new OrderRepository(_context);
+    public IOrderDtlsRepository OrderDtls => _orderDtlsRepository ??= new OrderDtlsRepository(_context);
 
     public int SaveChanges()
     {
