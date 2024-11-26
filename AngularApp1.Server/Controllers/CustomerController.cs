@@ -39,7 +39,7 @@ namespace AngularApp1.Server.Controllers
         }
 
         // Update a Customer
-        [HttpPut]
+        [HttpPut("{id}")]
         public async Task<IActionResult> Put([FromBody] CustomerViewModel model)
         {
             if (!ModelState.IsValid)

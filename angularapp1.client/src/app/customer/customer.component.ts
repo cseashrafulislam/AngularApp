@@ -55,6 +55,7 @@ export class CustomerComponent implements OnInit {
     this.selectedCustomerId = customer.id;
     // Populate the form with customer data
     this.customerForm.patchValue({
+      id: customer.id,
       customerName: customer.customerName, // Map to CustomerName
       phoneNo: customer.phoneNo,     // Map to PhoneNo
       address: customer.address    // Map to Address
@@ -68,8 +69,10 @@ export class CustomerComponent implements OnInit {
     }
 
     const customerData: Customer = this.customerForm.value;
+    
 
     if (this.isEditMode && this.selectedCustomerId !== null) {
+      customerData.id = this.selectedCustomerId;
       this.updateCustomer(this.selectedCustomerId, customerData);
     } else {
       this.createCustomer(customerData);
@@ -93,7 +96,8 @@ export class CustomerComponent implements OnInit {
 
   // Update an existing customer
   updateCustomer(id: number, customer: Customer): void {
-    this.http.put(`${this.apiUrl}/${id}`, customer).subscribe(
+    const url = `${this.apiUrl}/${id}`;  // Include the customer ID in the URL
+    this.http.put(url, customer).subscribe(
       () => {
         alert('Customer updated successfully!');
         this.getCustomers();
@@ -105,6 +109,7 @@ export class CustomerComponent implements OnInit {
       }
     );
   }
+
 
   // Delete a customer
   deleteCustomer(id: number): void {
